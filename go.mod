@@ -1,4 +1,4 @@
-module GoTrim
+module "github.com/NickNaskida/GoTrim"
 
 go 1.21
 

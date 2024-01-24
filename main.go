@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/NickNaskida/GoTrim/controllers"
 	"github.com/gin-gonic/gin"
 )
 
@@ -10,12 +11,16 @@ func main() {
 	v1 := router.Group("/v1")
 	{
 		/*** START URL CRUD ***/
-		v1.GET("/urls", _)         // TODO
-		v1.GET("/urls/:key", _)    // TODO
-		v1.POST("/urls", _)        // TODO
-		v1.DELETE("/urls/:key", _) // TODO
+		url := new(controllers.UrlController)
+
+		v1.GET("/urls", url.GetUrls)           // TODO
+		v1.GET("/urls/:key", url.GetUrl)       // TODO
+		v1.POST("/urls", url.CreateUrl)        // TODO
+		v1.DELETE("/urls/:key", url.DeleteUrl) // TODO
 
 		/*** START REDIRECT ***/
-		v1.GET("/:key", _) // TODO
+		//v1.GET("/:key", _) // TODO
 	}
+
+	router.Run(":8080")
 }

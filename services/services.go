@@ -12,12 +12,6 @@ type UrlShortener struct {
 	urls map[string]string
 }
 
-func NewUrlShortener() *UrlShortener {
-	return &UrlShortener{
-		urls: make(map[string]string),
-	}
-}
-
 func isValidURL(u string) bool {
 	_, err := url.ParseRequestURI(u)
 	return err == nil
@@ -53,7 +47,7 @@ func (u *UrlShortener) GetAll() map[string]string {
 	return u.urls
 }
 
-func (u *UrlShortener) Remove(key string) error {
+func (u *UrlShortener) Delete(key string) error {
 	_, exists := u.urls[key]
 	if !exists {
 		return errors.New(fmt.Sprintf("url with key '%s' not found", key))
