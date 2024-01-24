@@ -23,7 +23,7 @@ func isValidURL(u string) bool {
 	return err == nil
 }
 
-func (u *UrlShortener) Add(url string) (string, error) {
+func (u *UrlShortener) Create(url string) (string, error) {
 	if !isValidURL(url) {
 		return "", errors.New(fmt.Sprintf("invalid url '%s'", url))
 	}
@@ -47,6 +47,10 @@ func (u *UrlShortener) Get(key string) (string, error) {
 		return "", errors.New(fmt.Sprintf("url with key '%s' not found", key))
 	}
 	return url, nil
+}
+
+func (u *UrlShortener) GetAll() map[string]string {
+	return u.urls
 }
 
 func (u *UrlShortener) Remove(key string) error {
