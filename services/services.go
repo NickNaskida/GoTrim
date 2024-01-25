@@ -8,6 +8,8 @@ import (
 	"time"
 )
 
+var redirectDomain string = "http://localhost:8080/"
+
 type UrlShortener struct {
 	urls map[string]string
 }
@@ -32,7 +34,7 @@ func (u *UrlShortener) Create(url string) (string, error) {
 	}
 
 	u.urls[string(key)] = url
-	return string(key), nil
+	return redirectDomain + string(key), nil
 }
 
 func (u *UrlShortener) Get(key string) (string, error) {

@@ -14,25 +14,67 @@ type UrlController struct{}
 var urlService = new(services.UrlShortener)
 
 func (u *UrlController) GetUrls(c *gin.Context) {
+	urls := urlService.GetAll()
+
+	if urls == nil {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "no urls",
+		})
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{
-		"message": "GetUrls",
+		"message": "success",
+		"urls":    urls,
 	})
 }
 
 func (u *UrlController) GetUrl(c *gin.Context) {
+	url, err := urlService.Get(c.Param("key"))
+
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"message": "url not found",
+			"detail":  err.Error(),
+		})
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{
-		"message": "GetUrl",
+		"message": "success",
+		"url":     url,
 	})
 }
 
 func (u *UrlController) CreateUrl(c *gin.Context) {
+	url, err := urlService.Create(c.PostForm("url"))
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "invalid url",
+			"detail":  err.Error(),
+		})
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{
-		"message": "CreateUrl",
+		"message": "success",
+		"url":     url,
 	})
 }
 
 func (u *UrlController) DeleteUrl(c *gin.Context) {
+	err := urlService.Delete(c.Param("key"))
+
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"message": "url not found",
+			"detail":  err.Error(),
+		})
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{
-		"message": "DeleteUrl",
+		"message": "success",
 	})
 }
