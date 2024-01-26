@@ -13,6 +13,10 @@ type UrlController struct{}
 
 var urlService = new(services.UrlShortener)
 
+type urlBody struct {
+	Url string `json:"url" binding:"required"`
+}
+
 func (u *UrlController) GetUrls(c *gin.Context) {
 	urls := urlService.GetAll()
 
@@ -47,8 +51,16 @@ func (u *UrlController) GetUrl(c *gin.Context) {
 }
 
 func (u *UrlController) CreateUrl(c *gin.Context) {
-	url, err := urlService.Create(c.PostForm("url"))
+	body := urlBody{}
+	if err := c.ShouldBindJSON(&body); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "invalid body",
+			"detail":  err.Error(),
+		})
+		return
+	}
 
+	url, err := urlService.Create(body.Url)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "invalid url",

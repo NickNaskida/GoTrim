@@ -5,7 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func main() {
+func setupRouter() *gin.Engine {
 	router := gin.Default()
 
 	v1 := router.Group("/v1")
@@ -22,5 +22,10 @@ func main() {
 		//v1.GET("/:key", _) // TODO
 	}
 
+	return router
+}
+
+func main() {
+	router := setupRouter()
 	router.Run(":8080")
 }
