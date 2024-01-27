@@ -14,6 +14,17 @@ type UrlShortener struct {
 	urls map[string]string
 }
 
+var urlService *UrlShortener
+
+func GetUrlService() *UrlShortener {
+	if urlService == nil {
+		urlService = &UrlShortener{
+			urls: make(map[string]string),
+		}
+	}
+	return urlService
+}
+
 func isValidURL(u string) bool {
 	_, err := url.ParseRequestURI(u)
 	return err == nil
@@ -39,6 +50,7 @@ func (u *UrlShortener) Create(url string) (string, error) {
 
 func (u *UrlShortener) Get(key string) (string, error) {
 	url, exists := u.urls[key]
+	fmt.Println(url)
 	if !exists {
 		return "", errors.New(fmt.Sprintf("url with key '%s' not found", key))
 	}

@@ -13,13 +13,18 @@ func setupRouter() *gin.Engine {
 		/*** START URL CRUD ***/
 		url := new(controllers.UrlController)
 
-		v1.GET("/urls", url.GetUrls)           // TODO
-		v1.GET("/urls/:key", url.GetUrl)       // TODO
-		v1.POST("/urls", url.CreateUrl)        // TODO
-		v1.DELETE("/urls/:key", url.DeleteUrl) // TODO
+		v1.GET("/urls", url.GetUrls)
+		v1.GET("/urls/:key", url.GetUrl)
+		v1.POST("/urls", url.CreateUrl)
+		v1.DELETE("/urls/:key", url.DeleteUrl)
+	}
 
+	r := router.Group("/")
+	{
 		/*** START REDIRECT ***/
-		//v1.GET("/:key", _) // TODO
+		redirect := new(controllers.RedirectController)
+
+		r.GET("/:key", redirect.RedirectUrl)
 	}
 
 	return router

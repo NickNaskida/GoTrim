@@ -11,14 +11,12 @@ import (
 // UrlController is the controller for the url resource
 type UrlController struct{}
 
-var urlService = new(services.UrlShortener)
-
 type urlBody struct {
 	Url string `json:"url" binding:"required"`
 }
 
 func (u *UrlController) GetUrls(c *gin.Context) {
-	urls := urlService.GetAll()
+	urls := services.GetUrlService().GetAll()
 
 	if urls == nil {
 		c.JSON(http.StatusOK, gin.H{
@@ -34,7 +32,7 @@ func (u *UrlController) GetUrls(c *gin.Context) {
 }
 
 func (u *UrlController) GetUrl(c *gin.Context) {
-	url, err := urlService.Get(c.Param("key"))
+	url, err := services.GetUrlService().Get(c.Param("key"))
 
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
@@ -60,7 +58,7 @@ func (u *UrlController) CreateUrl(c *gin.Context) {
 		return
 	}
 
-	url, err := urlService.Create(body.Url)
+	url, err := services.GetUrlService().Create(body.Url)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "invalid url",
@@ -76,7 +74,7 @@ func (u *UrlController) CreateUrl(c *gin.Context) {
 }
 
 func (u *UrlController) DeleteUrl(c *gin.Context) {
-	err := urlService.Delete(c.Param("key"))
+	err := services.GetUrlService().Delete(c.Param("key"))
 
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
