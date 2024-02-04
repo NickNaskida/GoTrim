@@ -1,6 +1,6 @@
 # GoTrim
 
-GoTrim is a simple tool to shorten URLs.
+A simple web API service for shortening URLs written in Go and Gin.
 
 ### Prerequisites
 
@@ -20,21 +20,21 @@ GoTrim is a simple tool to shorten URLs.
     ./GoTrim
     ```
 
-## Development
-### Running the tests
+### Development
+#### Running the tests
 ```sh
 go test -v ./tests
 ```
 
-### Building the project
+#### Building the project
 ```sh
 go build
 ```
 
 
-## Built With
+### Built With
 - [Go](https://golang.org/)
 - [Gin](https://gin-gonic.com/)
 
-## License
+### License
 GoTrim is licensed under the [MIT License](LICENSE), making it open and accessible for anyone to use and modify.
